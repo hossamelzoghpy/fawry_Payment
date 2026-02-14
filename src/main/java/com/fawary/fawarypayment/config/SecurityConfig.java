@@ -52,7 +52,9 @@ public class SecurityConfig {
 //                .requestMatchers("/myCards").hasRole("USER")
 //                .requestMatchers("/myLoans").hasRole("USER")
 //                .requestMatchers("/user").authenticated()
-                .requestMatchers("/loginApi").permitAll());
+                    .requestMatchers("/loginApi").permitAll()
+                        .requestMatchers("/**").permitAll()
+                .requestMatchers("/api/gateways/config/create").permitAll());
 
         return http.build();
     }

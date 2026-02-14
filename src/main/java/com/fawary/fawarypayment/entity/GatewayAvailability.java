@@ -18,8 +18,9 @@ public class GatewayAvailability {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "gateway_id")
-    private String gatewayId;
+    @ManyToOne
+    @JoinColumn(name = "gateway_id", nullable = false)
+    private GatewayConfig gateway;
 
     @Column(name = "day_of_week")
     private Integer dayOfWeek;
