@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.time.LocalDateTime;
+
 @ControllerAdvice
 public class ApplicationExceptionHandler {
         @ExceptionHandler(IllegalArgumentEx.class)
@@ -26,7 +28,7 @@ public class ApplicationExceptionHandler {
     }
     @ExceptionHandler(SecurityAuthenticationException.class)
     public ResponseEntity<ErrorResponse> handleNotFound(SecurityAuthenticationException ex){
-        ErrorResponse error=ErrorResponse.builder().message(ex.getMessage()).build();
+        ErrorResponse error=ErrorResponse.builder().message(ex.getMessage()).status(HttpStatus.UNAUTHORIZED.toString()).time(LocalDateTime.now()).build();
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
                 .body(error);

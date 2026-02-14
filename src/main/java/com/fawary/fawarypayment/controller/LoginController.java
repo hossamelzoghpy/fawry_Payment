@@ -42,8 +42,8 @@ public class LoginController {
                     ApplicationConstants.JWT_SECRET_DEFAULT_VALUE);
             SecretKey secretKey= Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
             jwt= Jwts.builder().issuer("fawary system").subject("token")
-                    .claim("username",authentication.getName())
-                    .claim("Roles",authentication.getAuthorities().stream().map(
+                    .claim("username",authenticationResponse.getName())
+                    .claim("Roles",authenticationResponse.getAuthorities().stream().map(
                             GrantedAuthority::getAuthority).collect(Collectors.joining(",")))
                     .issuedAt(new java.util.Date())
                     .expiration(new java.util.Date((new java.util.Date()).getTime()+30000000))

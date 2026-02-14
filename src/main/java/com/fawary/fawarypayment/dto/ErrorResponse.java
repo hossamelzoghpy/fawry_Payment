@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 public class ErrorResponse {
-    private Boolean status;
+    private String status;
     private String message;
     private LocalDateTime time;
 }
