@@ -1,8 +1,6 @@
 package com.fawary.fawarypayment.config;
 
-import com.fawary.fawarypayment.filter.JwtTokenGenerationFilter;
 import com.fawary.fawarypayment.filter.JwtTokenValidationFilter;
-import com.fawary.fawarypayment.filter.RequestValidationBeforeFilter;
 import com.fawary.fawarypayment.service.security.CustomAuthenticationProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
@@ -42,8 +40,7 @@ public class SecurityConfig {
                         corsConfiguration.setMaxAge(3600L);
                         return corsConfiguration;
                     }
-                })).addFilterBefore(new RequestValidationBeforeFilter(), BasicAuthenticationFilter.class)
-                    .addFilterAfter(new JwtTokenGenerationFilter(), BasicAuthenticationFilter.class )
+                }))
                     .addFilterBefore(new JwtTokenValidationFilter(), BasicAuthenticationFilter.class)
                     .authorizeHttpRequests((requests) -> requests
                     .requestMatchers("/api/gateways/availability/**").hasRole("ADMIN")
