@@ -48,7 +48,7 @@ public class SecurityConfig {
                     .requestMatchers("/api/factor/config/**").hasRole("ADMIN")
                     .requestMatchers("/api/billers/logs/**").authenticated()
                     .requestMatchers("/api/payments/recommend/**").hasRole("USER")
-                    .requestMatchers("/loginApi").permitAll());
+                    .requestMatchers("/api/auth/login").permitAll());
 
 
         return http.build();
