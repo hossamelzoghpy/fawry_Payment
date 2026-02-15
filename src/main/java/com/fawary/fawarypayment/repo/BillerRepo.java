@@ -1,13 +1,13 @@
 package com.fawary.fawarypayment.repo;
 
-import com.fawary.fawarypayment.entity.User;
+import com.fawary.fawarypayment.entity.Biller;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Repository
-public interface UsersRepo extends JpaRepository<User, Long> {
-    Optional<User> findByUsername(String username);
+public interface BillerRepo extends JpaRepository<Biller, String> {
 
 }

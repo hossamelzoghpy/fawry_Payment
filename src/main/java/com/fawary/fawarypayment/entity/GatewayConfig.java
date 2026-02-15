@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "gateway_config")
+@Table(name = "gateway_config" ,uniqueConstraints = @UniqueConstraint(name="uk_gateway_name", columnNames = {"name"}))
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,6 +22,7 @@ public class GatewayConfig {
     @GatewayId
     private String id;
 
+    @Column(name = "name")
     private String name;
 
     @Column(name = "fixed_fee")
@@ -43,10 +44,13 @@ public class GatewayConfig {
             mappedBy = "gateway",
             orphanRemoval = true
     )
-    private List<GatewayAvailability> availabilities = new ArrayList<>();
+    private List<GatewayAvailability> availabilities;
 
     @Column(name = "processing_time")
     private Integer processingTime;
+
+    @OneToMany(mappedBy = "gateway")
+    private List<TransactionLog> transactionLogs;
 
     private Boolean enabled;
 

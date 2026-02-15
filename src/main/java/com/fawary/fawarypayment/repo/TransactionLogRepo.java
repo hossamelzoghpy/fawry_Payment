@@ -2,8 +2,12 @@ package com.fawary.fawarypayment.repo;
 
 import com.fawary.fawarypayment.entity.TransactionLog;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -23,4 +27,17 @@ public interface TransactionLogRepo extends JpaRepository<TransactionLog, UUID> 
             LocalDateTime start,
             LocalDateTime end
     );
+
+    @Query("SELECT COALESCE(SUM(t.amount), 0) " +
+            "FROM TransactionLog t " +
+            "WHERE t.billerId = :billerId " +
+            "AND t.gateway.id = :gatewayId " +
+            "AND FUNCTION('DATE', t.createdAt) = :date")
+    BigDecimal sumAmountByBillerAndGatewayAndDate(
+            @Param("billerId") String billerId,
+            @Param("gatewayId") String gatewayId,
+            @Param("date") LocalDate date
+    );
+
+
 }

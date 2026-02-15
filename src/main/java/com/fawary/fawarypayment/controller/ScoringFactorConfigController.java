@@ -1,6 +1,7 @@
 package com.fawary.fawarypayment.controller;
 
-import com.fawary.fawarypayment.cruds.ScoringFactorConfig;
+import com.fawary.fawarypayment.dto.ScoringFactorConfigDto;
+import com.fawary.fawarypayment.service.ScoringFactorConfigService;
 import com.fawary.fawarypayment.entity.ScoringFactoringConfig;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,16 +13,16 @@ import java.util.List;
 @RequestMapping("/api/factor/config")
 @AllArgsConstructor
 public class ScoringFactorConfigController {
-    private final ScoringFactorConfig scoringFactorConfig;
+    private final ScoringFactorConfigService scoringFactorConfig;
 
     @PostMapping("/create")
-    public ResponseEntity<Void> createFactorConfig(ScoringFactoringConfig entity){
-        scoringFactorConfig.insertFactorConfig(entity);
+    public ResponseEntity<Void> createFactorConfig(ScoringFactorConfigDto scoringFactorConfigDto){
+        scoringFactorConfig.insertFactorConfig(scoringFactorConfigDto);
         return ResponseEntity.ok().build();
     }
     @PutMapping("/update")
-    public ResponseEntity<Void> updateFactorConfig(ScoringFactoringConfig entity){
-        scoringFactorConfig.updateFactorConfig(entity);
+    public ResponseEntity<Void> updateFactorConfig(ScoringFactorConfigDto scoringFactorConfigDto){
+        scoringFactorConfig.updateFactorConfig(scoringFactorConfigDto);
         return ResponseEntity.ok().build();
     }
     @DeleteMapping ("/delete")

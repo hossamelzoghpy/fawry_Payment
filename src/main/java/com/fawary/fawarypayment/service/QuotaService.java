@@ -1,8 +1,6 @@
 package com.fawary.fawarypayment.service;
 import com.fawary.fawarypayment.dto.GatewayConfigDTO;
-import com.fawary.fawarypayment.entity.BillerUsage;
-import com.fawary.fawarypayment.entity.GatewayConfig;
-import com.fawary.fawarypayment.repo.BillerUsageRepo;
+import com.fawary.fawarypayment.repo.BillerRepo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,20 +10,20 @@ import java.time.LocalDate;
 @Service
 public class QuotaService {
 
-    private final BillerUsageRepo usageRepository;
+    private final BillerRepo usageRepository;
+    private final TransactionLogService transactionLogService;
 
-    public QuotaService(BillerUsageRepo usageRepository) {
+
+
+    public QuotaService(BillerRepo usageRepository, TransactionLogService transactionLogService) {
         this.usageRepository = usageRepository;
+        this.transactionLogService = transactionLogService;
     }
 
     public BigDecimal getUsedAmount(String billerId, String gatewayId, LocalDate date) {
         validateIds(billerId, gatewayId);
         if (date == null) throw new IllegalArgumentException("date must not be null");
-
-        return usageRepository
-                .findByBillerIdAndGatewayIdAndUsageDate(billerId, gatewayId, date)
-                .map(BillerUsage::getUsedAmount)
-                .orElse(BigDecimal.ZERO);
+        return transactionLogService.getTotalTransactionsAmountByBillerInDay(billerId, gatewayId, date);
     }
 
 
@@ -51,28 +49,6 @@ public class QuotaService {
     }
 
 
-    @Transactional
-    public void consume(String billerId, GatewayConfigDTO gateway, BigDecimal amount, LocalDate date) {
-        if (gateway == null) throw new IllegalArgumentException("gateway must not be null");
-        validateIds(billerId, gateway.getId());
-        if (date == null) throw new IllegalArgumentException("date must not be null");
-        if (amount == null) throw new IllegalArgumentException("amount must not be null");
-        if (amount.signum() <= 0) throw new IllegalArgumentException("amount must be > 0");
-
-        BillerUsage usage = usageRepository
-                .findByBillerIdAndGatewayIdAndUsageDate(billerId, gateway.getId(), date)
-                .orElseGet(() -> BillerUsage.builder()
-                        .billerId(billerId)
-                        .gatewayId(gateway.getId())
-                        .usageDate(date)
-                        .usedAmount(BigDecimal.ZERO)
-                        .build());
-
-
-        usage.setUsedAmount(usage.getUsedAmount().add(amount));
-
-        usageRepository.save(usage);
-    }
 
     private void validateIds(String billerId, String gatewayId) {
         if (billerId == null || billerId.isBlank()) {

@@ -1,9 +1,9 @@
-package com.fawary.fawarypayment.scoringengine;
+package com.fawary.fawarypayment.service.scoringengine;
 
 import com.fawary.fawarypayment.dto.FactorDirection;
-import com.fawary.fawarypayment.dto.GatewayConfigDTO;
 import com.fawary.fawarypayment.dto.ScoredGatewayDto;
 import com.fawary.fawarypayment.dto.ScoringFactorConfigDto;
+import com.fawary.fawarypayment.service.ScoringFactorConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;

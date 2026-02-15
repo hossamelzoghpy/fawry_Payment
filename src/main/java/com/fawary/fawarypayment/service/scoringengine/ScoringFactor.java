@@ -1,4 +1,4 @@
-package com.fawary.fawarypayment.scoringengine;
+package com.fawary.fawarypayment.service.scoringengine;
 
 import com.fawary.fawarypayment.dto.FactorDirection;
 import com.fawary.fawarypayment.dto.GatewayConfigDTO;

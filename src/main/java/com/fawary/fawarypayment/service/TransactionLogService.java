@@ -23,13 +23,11 @@ public class TransactionLogService {
         this.transactionMapper = transactionMapper;
     }
 
-    public TransactionLog logRecommendation(String billerId,
-                                            String gatewayId,
-                                            BigDecimal amount,
-                                            BigDecimal commission,
-                                            String urgency) {
-
-//        validateInputs(billerId, gatewayId, amount, commission, urgency);
+    public TransactionDTO logTransaction(String billerId,
+                                         String gatewayId,
+                                         BigDecimal amount,
+                                         BigDecimal commission,
+                                         String urgency) {
 
         TransactionDTO log = TransactionDTO.builder()
                 .id(UUID.randomUUID())
@@ -42,9 +40,9 @@ public class TransactionLogService {
                 .createdAt(LocalDateTime.now())
                 .build();
         TransactionLog entity=transactionMapper.toEntity(log);
-        return transactionLogRepository.save(entity);
+        return transactionMapper.toDto(transactionLogRepository.save(entity)) ;
     }
-    public List<TransactionLog> getTransactionsForDay(String billerId, LocalDate date) {
+    public List<TransactionDTO> getTransactionsForDay(String billerId, LocalDate date) {
         if (billerId == null || billerId.isBlank()) {
             throw new IllegalArgumentException("billerId must not be blank");
         }
@@ -55,9 +53,9 @@ public class TransactionLogService {
         LocalDateTime start = date.atStartOfDay();
         LocalDateTime end = date.plusDays(1).atStartOfDay();
 
-        return transactionLogRepository.findByBillerIdAndCreatedAtBetween(billerId, start, end);
+        return transactionMapper.toDtoList(transactionLogRepository.findByBillerIdAndCreatedAtBetween(billerId, start, end));
     }
-    public List<TransactionLog> getTransactionsForDay(String billerId, String gatewayId, LocalDate date) {
+    public List<TransactionDTO> getTransactionsForDay(String billerId, String gatewayId, LocalDate date) {
         if (billerId == null || billerId.isBlank()) {
             throw new IllegalArgumentException("billerId must not be blank");
         }
@@ -71,31 +69,18 @@ public class TransactionLogService {
         LocalDateTime start = date.atStartOfDay();
         LocalDateTime end = date.plusDays(1).atStartOfDay();
 
-        return transactionLogRepository.findByBillerIdAndGatewayIdAndCreatedAtBetween(
+        return transactionMapper.toDtoList(transactionLogRepository.findByBillerIdAndGatewayIdAndCreatedAtBetween(
                 billerId, gatewayId, start, end
-        );
+        ));
     }
 
-    private void validateInputs(String billerId,
-                                String gatewayId,
-                                BigDecimal amount,
-                                BigDecimal commission,
-                                String urgency) {
-        if (billerId == null || billerId.isBlank()) {
-            throw new IllegalArgumentException("billerId must not be blank");
-        }
-        if (gatewayId == null || gatewayId.isBlank()) {
-            throw new IllegalArgumentException("gatewayId must not be blank");
-        }
-        if (amount == null || amount.signum() <= 0) {
-            throw new IllegalArgumentException("amount must be > 0");
-        }
-        if (commission == null || commission.signum() < 0) {
-            throw new IllegalArgumentException("commission must be >= 0");
-        }
-        if (urgency == null || urgency.isBlank()) {
-            throw new IllegalArgumentException("urgency must not be blank");
-        }
+
+    BigDecimal getTotalTransactionsAmountByBillerInDay(String billerId,
+                                                       String gatewayId,
+                                                       LocalDate date){
+
+        return transactionLogRepository.sumAmountByBillerAndGatewayAndDate(billerId,gatewayId,date);
+
     }
 }
 

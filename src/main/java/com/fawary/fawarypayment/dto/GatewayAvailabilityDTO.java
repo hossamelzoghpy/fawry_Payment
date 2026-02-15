@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 @Getter
@@ -14,7 +15,7 @@ import java.time.LocalTime;
 public class GatewayAvailabilityDTO {
     private Long id;
     private String gatewayId;
-    private Integer dayOfWeek;
+    private DayOfWeek dayOfWeek;
     private LocalTime startTime;
     private LocalTime endTime;
 }

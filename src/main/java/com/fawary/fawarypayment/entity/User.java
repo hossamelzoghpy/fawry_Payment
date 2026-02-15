@@ -1,16 +1,16 @@
 package com.fawary.fawarypayment.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
-import java.util.Set;
+
+@Table(name = "app_users")
 @Entity
 @Getter
 @Setter
-public class Users {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,6 +26,11 @@ public class Users {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private List<Roles> roles;
+
+
+    @ManyToOne
+    @JoinColumn(name = "biller_id")
+    private Biller biller;
 
 }
 

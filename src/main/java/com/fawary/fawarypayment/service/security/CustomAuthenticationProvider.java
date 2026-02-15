@@ -1,4 +1,4 @@
-package com.fawary.fawarypayment.config;
+package com.fawary.fawarypayment.service.security;
 
 import com.fawary.fawarypayment.exception.SecurityAuthenticationException;
 import lombok.RequiredArgsConstructor;

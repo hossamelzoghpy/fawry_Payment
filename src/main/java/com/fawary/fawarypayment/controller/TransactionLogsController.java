@@ -1,5 +1,6 @@
 package com.fawary.fawarypayment.controller;
 
+import com.fawary.fawarypayment.dto.TransactionDTO;
 import com.fawary.fawarypayment.entity.TransactionLog;
 import com.fawary.fawarypayment.service.TransactionLogService;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ public class TransactionLogsController {
     private final TransactionLogService transactionLogService;
 
     @GetMapping("/{billerId}/transactions")
-    public List<TransactionLog> getTransactionsForDay(
+    public List<TransactionDTO> getTransactionsForDay(
             @PathVariable String billerId,
             @RequestParam(required = false) String gatewayId,
             @RequestParam(required = false)

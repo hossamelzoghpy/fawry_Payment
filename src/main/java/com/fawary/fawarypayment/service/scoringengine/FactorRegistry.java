@@ -1,6 +1,5 @@
-package com.fawary.fawarypayment.scoringengine;
+package com.fawary.fawarypayment.service.scoringengine;
 
-import com.fawary.fawarypayment.dto.ScoredGatewayDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

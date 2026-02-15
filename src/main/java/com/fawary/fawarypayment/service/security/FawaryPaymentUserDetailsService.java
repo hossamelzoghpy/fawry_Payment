@@ -1,12 +1,11 @@
-package com.fawary.fawarypayment.config;
+package com.fawary.fawarypayment.service.security;
 
-import com.fawary.fawarypayment.entity.Users;
-import com.fawary.fawarypayment.exception.NotFountEx;
+import com.fawary.fawarypayment.entity.User;
+import com.fawary.fawarypayment.exception.NotFountException;
 import com.fawary.fawarypayment.repo.UsersRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,13 +21,15 @@ public class FawaryPaymentUserDetailsService  implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Users user = usersRepo.findByUsername(username).orElseThrow(()->new NotFountEx("the "+username+" not found"));
+        User user = usersRepo.findByUsername(username).orElseThrow(()->new NotFountException("the "+username+" not found"));
         String email = user.getUsername();
         String password = user.getPassword();
         List<GrantedAuthority> roles = user.getRoles().stream().
                 map(authority -> new SimpleGrantedAuthority(authority.getName())).collect(Collectors.toList());
 
-        return new User(email,password,roles);
+        return new org.springframework.security.core.userdetails.User(email,password,roles);
     }
+
+
 
 }

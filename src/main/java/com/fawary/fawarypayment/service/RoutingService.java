@@ -2,15 +2,15 @@ package com.fawary.fawarypayment.service;
 
 
 import com.fawary.fawarypayment.dto.*;
+import com.fawary.fawarypayment.exception.NotFountException;
 import com.fawary.fawarypayment.mapper.GatewayConfigMapper;
 import com.fawary.fawarypayment.mapper.RecommendationMapper;
 import com.fawary.fawarypayment.repo.GatewayConfigRepo;
-import com.fawary.fawarypayment.scoringengine.ScoringEngine;
+import com.fawary.fawarypayment.service.scoringengine.ScoringEngine;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -50,14 +50,13 @@ public class RoutingService {
         List<ScoredGatewayDto> viableGateways = prepareScorintDtosData(recommendRequestDTO, viableConfigs, today);
 
         if (viableGateways.isEmpty()) {
-            throw new IllegalStateException("No viable gateway found for this request");
+            throw new NotFountException("No viable gateway found for this request");
         }
 
         List<ScoredGatewayDto> ranked = scoringEngine.rankGateways(viableGateways);
 
         ScoredGatewayDto recommended = ranked.get(0);
-        quotaService.consume(recommendRequestDTO.getBillerId(), recommended.getGateway(), recommendRequestDTO.getAmount(), today);
-        transactionLogService.logRecommendation(recommendRequestDTO.getBillerId(),
+        transactionLogService.logTransaction(recommendRequestDTO.getBillerId(),
                 recommended.getGateway().getId(), recommendRequestDTO.getAmount(),recommended.getCommission(),recommendRequestDTO.getUrgency());
         List<ScoredGatewayDto> alternatives = ranked.subList(1, ranked.size());
 
@@ -100,30 +99,5 @@ public class RoutingService {
         }
         return true;
     }
-
-    private void validateInputs(String billerId, BigDecimal amount, String urgency, LocalDateTime requestTime) {
-        if (billerId == null || billerId.isBlank()) {
-            throw new IllegalArgumentException("billerId must not be blank");
-        }
-        if (amount == null) {
-            throw new IllegalArgumentException("amount must not be null");
-        }
-        if (amount.signum() <= 0) {
-            throw new IllegalArgumentException("amount must be > 0");
-        }
-        if (urgency == null || urgency.isBlank()) {
-            throw new IllegalArgumentException("urgency must not be blank");
-        }
-        if (!"INSTANT".equalsIgnoreCase(urgency) && !"CAN_WAIT".equalsIgnoreCase(urgency)) {
-            throw new IllegalArgumentException("urgency must be INSTANT or CAN_WAIT");
-        }
-        if (requestTime == null) {
-            throw new IllegalArgumentException("requestTime must not be null");
-        }
-    }
-
-
-
-
 
 }

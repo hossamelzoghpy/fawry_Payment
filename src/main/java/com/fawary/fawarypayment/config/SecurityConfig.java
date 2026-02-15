@@ -3,6 +3,7 @@ package com.fawary.fawarypayment.config;
 import com.fawary.fawarypayment.filter.JwtTokenGenerationFilter;
 import com.fawary.fawarypayment.filter.JwtTokenValidationFilter;
 import com.fawary.fawarypayment.filter.RequestValidationBeforeFilter;
+import com.fawary.fawarypayment.service.security.CustomAuthenticationProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,8 +21,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 
 import java.util.Arrays;
 import java.util.Collections;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 public class SecurityConfig {
@@ -44,17 +43,16 @@ public class SecurityConfig {
                         return corsConfiguration;
                     }
                 })).addFilterBefore(new RequestValidationBeforeFilter(), BasicAuthenticationFilter.class)
-                .addFilterAfter(new JwtTokenGenerationFilter(), BasicAuthenticationFilter.class )
-                .addFilterBefore(new JwtTokenValidationFilter(), BasicAuthenticationFilter.class)
-                .authorizeHttpRequests((requests) -> requests
-//                .requestMatchers("/myAccount").hasRole("")
-//                .requestMatchers("/myBalance").hasAnyRole("USER","ADMIN")
-//                .requestMatchers("/myCards").hasRole("USER")
-//                .requestMatchers("/myLoans").hasRole("USER")
-//                .requestMatchers("/user").authenticated()
-                    .requestMatchers("/loginApi").permitAll()
-                        .requestMatchers("/**").permitAll()
-                .requestMatchers("/api/gateways/config/create").permitAll());
+                    .addFilterAfter(new JwtTokenGenerationFilter(), BasicAuthenticationFilter.class )
+                    .addFilterBefore(new JwtTokenValidationFilter(), BasicAuthenticationFilter.class)
+                    .authorizeHttpRequests((requests) -> requests
+                    .requestMatchers("/api/gateways/availability/**").hasRole("ADMIN")
+                    .requestMatchers("/api/gateways/config/**").hasRole("ADMIN")
+                    .requestMatchers("/api/factor/config/**").hasRole("ADMIN")
+                    .requestMatchers("/api/billers/logs/**").authenticated()
+                    .requestMatchers("/api/payments/recommend/**").hasRole("USER")
+                    .requestMatchers("/loginApi").permitAll());
+
 
         return http.build();
     }

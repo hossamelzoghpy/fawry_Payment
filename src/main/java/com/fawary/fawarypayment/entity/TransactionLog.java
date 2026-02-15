@@ -1,9 +1,6 @@
 package com.fawary.fawarypayment.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -24,8 +21,9 @@ public class TransactionLog {
     @Column(name = "biller_id")
     private String billerId;
 
-    @Column(name = "gateway_id")
-    private String gatewayId;
+    @ManyToOne
+    @JoinColumn(name = "gateway_id")
+    private GatewayConfig gateway;
 
     private BigDecimal amount;
 

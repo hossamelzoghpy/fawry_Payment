@@ -4,6 +4,8 @@ import com.fawary.fawarypayment.dto.GatewayAvailabilityDTO;
 import com.fawary.fawarypayment.mapper.GatewayAvailabilityMapper;
 import com.fawary.fawarypayment.repo.GatewayAvailabilityRepo;
 import org.springframework.stereotype.Service;
+
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -27,16 +29,16 @@ public class AvailabilityService {
             throw new IllegalArgumentException("dateTime must not be null");
         }
 
-        int dayOfWeek = dateTime.getDayOfWeek().getValue();
+        DayOfWeek dayOfWeek = dateTime.getDayOfWeek();
         LocalTime timeNow = dateTime.toLocalTime();
 
-        List<GatewayAvailabilityDTO> getAvaible= mapper.toDtoList(availabilityRepo.findByGatewayIdAndDayOfWeek(gatewayId, dayOfWeek));
+        List<GatewayAvailabilityDTO> getCurrentAvailabilities= mapper.toDtoList(availabilityRepo.findByGatewayIdAndDayOfWeek(gatewayId, dayOfWeek));
 
-        if (getAvaible.isEmpty()) {
+        if (getCurrentAvailabilities.isEmpty()) {
             return false;
         }
 
-        return getAvaible.stream().anyMatch(ga ->
+        return getCurrentAvailabilities.stream().anyMatch(ga ->
                 !timeNow.isBefore(ga.getStartTime()) && timeNow.isBefore(ga.getEndTime())
         );
     }
