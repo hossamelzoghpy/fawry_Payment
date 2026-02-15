@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/gateways/config")
 @AllArgsConstructor
@@ -33,7 +35,7 @@ public class GatewayConfigController {
         return ResponseEntity.ok(gatewayConfigService.getGateway(gatewayId));
     }
     @GetMapping(value = "getAll")
-    public ResponseEntity<Iterable<GatewayConfigDTO>> getAll() {
+    public ResponseEntity<List<GatewayConfigDTO>> getAll() {
         return ResponseEntity.ok(gatewayConfigService.getAllGateways());
     }
 }

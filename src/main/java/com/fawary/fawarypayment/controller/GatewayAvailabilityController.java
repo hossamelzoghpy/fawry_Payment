@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/gateways/availability")
 @AllArgsConstructor
@@ -35,7 +37,7 @@ public class GatewayAvailabilityController {
         return ResponseEntity.ok(gatewayAvailabilityService.getGatewayAvailability(availabilityId));
     }
     @GetMapping(value = "getAll")
-    public ResponseEntity<Iterable<GatewayAvailabilityDTO>> getAll() {
+    public ResponseEntity<List<GatewayAvailabilityDTO>> getAll() {
         return ResponseEntity.ok(gatewayAvailabilityService.getAllGatewayAvailabilities());
     }
 }
