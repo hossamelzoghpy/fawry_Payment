@@ -1,0 +1,491 @@
+{
+  "info": {
+    "_postman_id": "c61d8769-96f9-4b8a-86eb-fc58f630b287",
+    "name": "fawary",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "38068778"
+  },
+  "item": [
+    {
+      "name": "Recommand-Gateways",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"billerId\": \"BILL_144\",\r\n    \"amount\": 50,\r\n    \"urgency\": \"CAN_WAIT\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/payments/recommend",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "payments",
+            "recommend"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "login",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"billerId\": \"BILL_12345\",\r\n    \"amount\": 50,\r\n    \"urgency\": \"CAN_WAIT\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/payments/recommend",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "payments",
+            "recommend"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "create-availability-gateway",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmYXdhcnkgc3lzdGVtIiwic3ViIjoidG9rZW4iLCJ1c2VybmFtZSI6ImFkbWluQGZhd2FyeS5jb20iLCJiaWxsZXJJZCI6IiIsIlJvbGVzIjoiUk9MRV9BRE1JTiIsImlhdCI6MTc3MTE3Nzk2OSwiZXhwIjoxNzcxMjA3OTY5fQ._E2EWX37ztDlRHg_lZqPv4CUzUjBIQbXcycaZzqD0OU",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"gatewayId\": \"gateway_551\",\r\n  \"dayOfWeek\": \"SATURDAY\",\r\n  \"startTime\": \"00:00:00\",\r\n  \"endTime\": \"23:00:00\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/gateways/availability/create",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "gateways",
+            "availability",
+            "create"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "update-availability-gateway",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmYXdhcnkgc3lzdGVtIiwic3ViIjoidG9rZW4iLCJ1c2VybmFtZSI6ImFkbWluQGZhd2FyeS5jb20iLCJiaWxsZXJJZCI6IiIsIlJvbGVzIjoiUk9MRV9BRE1JTiIsImlhdCI6MTc3MTE3Nzk2OSwiZXhwIjoxNzcxMjA3OTY5fQ._E2EWX37ztDlRHg_lZqPv4CUzUjBIQbXcycaZzqD0OU",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"gatewayId\": \"gateway_551\",\r\n  \"dayOfWeek\": \"SATURDAY\",\r\n  \"startTime\": \"00:00:00\",\r\n  \"endTime\": \"23:00:00\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/gateways/availability/create",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "gateways",
+            "availability",
+            "create"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "delete-availability-gateway",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmYXdhcnkgc3lzdGVtIiwic3ViIjoidG9rZW4iLCJ1c2VybmFtZSI6ImFkbWluQGZhd2FyeS5jb20iLCJiaWxsZXJJZCI6IiIsIlJvbGVzIjoiUk9MRV9BRE1JTiIsImlhdCI6MTc3MTE3Nzk2OSwiZXhwIjoxNzcxMjA3OTY5fQ._E2EWX37ztDlRHg_lZqPv4CUzUjBIQbXcycaZzqD0OU",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/gateways/availability/delete/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "gateways",
+            "availability",
+            "delete",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "getAll-availability-gateway",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "create-gateway-config",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmYXdhcnkgc3lzdGVtIiwic3ViIjoidG9rZW4iLCJ1c2VybmFtZSI6ImFkbWluQGZhd2FyeS5jb20iLCJiaWxsZXJJZCI6IiIsIlJvbGVzIjoiUk9MRV9BRE1JTiIsImlhdCI6MTc3MTE3Nzk2OSwiZXhwIjoxNzcxMjA3OTY5fQ._E2EWX37ztDlRHg_lZqPv4CUzUjBIQbXcycaZzqD0OU",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n   \r\n    \"name\": \"vodafone\",\r\n    \"fixedFee\": 1.50,\r\n    \"percentageFee\": 2,\r\n    \"dailyLimit\": 100000.00,\r\n    \"minTransaction\": 10.00,\r\n    \"maxTransaction\": 5000.00,\r\n    \"processingTime\": 0,\r\n    \"enabled\": false\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/gateways/config/create",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "gateways",
+            "config",
+            "create"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "update-gateway-config",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmYXdhcnkgc3lzdGVtIiwic3ViIjoidG9rZW4iLCJ1c2VybmFtZSI6ImFkbWluQGZhd2FyeS5jb20iLCJiaWxsZXJJZCI6IiIsIlJvbGVzIjoiUk9MRV9BRE1JTiIsImlhdCI6MTc3MTE3Nzk2OSwiZXhwIjoxNzcxMjA3OTY5fQ._E2EWX37ztDlRHg_lZqPv4CUzUjBIQbXcycaZzqD0OU",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"gatewayId\": \"gateway_301\",\r\n    \"name\": \"Orange\",\r\n    \"fixedFee\": 1.50,\r\n    \"percentageFee\": 2,\r\n    \"dailyLimit\": 100000.00,\r\n    \"minTransaction\": 10.00,\r\n    \"maxTransaction\": 5000.00,\r\n    \"processingTime\": 0,\r\n    \"enabled\": false\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/gateways/config/update",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "gateways",
+            "config",
+            "update"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "delete-gateway-config",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmYXdhcnkgc3lzdGVtIiwic3ViIjoidG9rZW4iLCJ1c2VybmFtZSI6ImFkbWluQGZhd2FyeS5jb20iLCJiaWxsZXJJZCI6IiIsIlJvbGVzIjoiUk9MRV9BRE1JTiIsImlhdCI6MTc3MTE3Nzk2OSwiZXhwIjoxNzcxMjA3OTY5fQ._E2EWX37ztDlRHg_lZqPv4CUzUjBIQbXcycaZzqD0OU",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/gateways/config/delete/gateway_301",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "gateways",
+            "config",
+            "delete",
+            "gateway_301"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "getAllGetways",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmYXdhcnkgc3lzdGVtIiwic3ViIjoidG9rZW4iLCJ1c2VybmFtZSI6ImFkbWluQGZhd2FyeS5jb20iLCJiaWxsZXJJZCI6IiIsIlJvbGVzIjoiUk9MRV9BRE1JTiIsImlhdCI6MTc3MTE3Nzk2OSwiZXhwIjoxNzcxMjA3OTY5fQ._E2EWX37ztDlRHg_lZqPv4CUzUjBIQbXcycaZzqD0OU",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/gateways/config/getAll",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "gateways",
+            "config",
+            "getAll"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create-Factor",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmYXdhcnkgc3lzdGVtIiwic3ViIjoidG9rZW4iLCJ1c2VybmFtZSI6ImFkbWluQGZhd2FyeS5jb20iLCJiaWxsZXJJZCI6IiIsIlJvbGVzIjoiUk9MRV9BRE1JTiIsImlhdCI6MTc3MTE3ODU4NSwiZXhwIjoxNzcxMjA4NTg1fQ.VHThP4eKFZdZvWArG5xfawxRCDTL1Xr8R0XykfPvvdY",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"code\": \"gateway_551\",\r\n  \"weight\": \".20\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/factor/config/create",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "factor",
+            "config",
+            "create"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "update-Factor",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmYXdhcnkgc3lzdGVtIiwic3ViIjoidG9rZW4iLCJ1c2VybmFtZSI6ImFkbWluQGZhd2FyeS5jb20iLCJiaWxsZXJJZCI6IiIsIlJvbGVzIjoiUk9MRV9BRE1JTiIsImlhdCI6MTc3MTE3ODU4NSwiZXhwIjoxNzcxMjA4NTg1fQ.VHThP4eKFZdZvWArG5xfawxRCDTL1Xr8R0XykfPvvdY",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"code\": \"gateway_551\",\r\n  \"weight\": \".20\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/factor/config/update",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "factor",
+            "config",
+            "update"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "delete-Factor",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmYXdhcnkgc3lzdGVtIiwic3ViIjoidG9rZW4iLCJ1c2VybmFtZSI6ImFkbWluQGZhd2FyeS5jb20iLCJiaWxsZXJJZCI6IiIsIlJvbGVzIjoiUk9MRV9BRE1JTiIsImlhdCI6MTc3MTE3ODU4NSwiZXhwIjoxNzcxMjA4NTg1fQ.VHThP4eKFZdZvWArG5xfawxRCDTL1Xr8R0XykfPvvdY",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"code\": \"gateway_551\",\r\n  \"weight\": \".20\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/factor/config/delete/commission",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "factor",
+            "config",
+            "delete",
+            "commission"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "getall-Factor",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmYXdhcnkgc3lzdGVtIiwic3ViIjoidG9rZW4iLCJ1c2VybmFtZSI6ImFkbWluQGZhd2FyeS5jb20iLCJiaWxsZXJJZCI6IiIsIlJvbGVzIjoiUk9MRV9BRE1JTiIsImlhdCI6MTc3MTE3ODU4NSwiZXhwIjoxNzcxMjA4NTg1fQ.VHThP4eKFZdZvWArG5xfawxRCDTL1Xr8R0XykfPvvdY",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/factor/config/getAll",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "factor",
+            "config",
+            "getAll"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

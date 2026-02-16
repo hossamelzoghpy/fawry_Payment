@@ -27,15 +27,15 @@ public class ScoringFactorConfigController {
         scoringFactorConfig.updateFactorConfig(scoringFactorConfigDto);
         return ResponseEntity.ok().build();
     }
-    @DeleteMapping ("/delete")
-    public ResponseEntity<Void> deleteFactorConfig(String code){
+    @DeleteMapping ("/delete/{code}")
+    public ResponseEntity<Void> deleteFactorConfig(@PathVariable String code){
         scoringFactorConfig.deleteFactorConfig(code);
         return ResponseEntity.ok().build();
     }
-    @GetMapping("/get")
-    public ResponseEntity<ScoringFactoringConfig> getFactorConfig(String code){
-        return ResponseEntity.ok(scoringFactorConfig.getFactorConfig(code));
-    }
+//    @GetMapping("/get")
+//    public ResponseEntity<ScoringFactoringConfig> getFactorConfig(String code){
+//        return ResponseEntity.ok(scoringFactorConfig.getFactorConfig(code));
+//    }
     @GetMapping("/getAll")
     public ResponseEntity<List<ScoringFactoringConfig>> getAllFactorConfigs(){
         return ResponseEntity.ok(scoringFactorConfig.getAllFactorConfigs());
