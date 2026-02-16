@@ -4,7 +4,10 @@ import com.fawary.fawarypayment.dto.ScoringFactorConfigDto;
 import com.fawary.fawarypayment.service.ScoringFactorConfigService;
 import com.fawary.fawarypayment.entity.ScoringFactoringConfig;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,12 +19,12 @@ public class ScoringFactorConfigController {
     private final ScoringFactorConfigService scoringFactorConfig;
 
     @PostMapping("/create")
-    public ResponseEntity<Void> createFactorConfig(ScoringFactorConfigDto scoringFactorConfigDto){
+    public ResponseEntity<Void> createFactorConfig(@RequestBody  @Validated  ScoringFactorConfigDto scoringFactorConfigDto){
         scoringFactorConfig.insertFactorConfig(scoringFactorConfigDto);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
     @PutMapping("/update")
-    public ResponseEntity<Void> updateFactorConfig(ScoringFactorConfigDto scoringFactorConfigDto){
+    public ResponseEntity<Void> updateFactorConfig(@RequestBody @Validated ScoringFactorConfigDto scoringFactorConfigDto){
         scoringFactorConfig.updateFactorConfig(scoringFactorConfigDto);
         return ResponseEntity.ok().build();
     }

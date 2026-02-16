@@ -1,7 +1,10 @@
 package com.fawary.fawarypayment.exception;
 
-public class NotFountException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class NotFountException extends ApplicationException {
     public NotFountException(String message) {
-        super(message);
+        super(message, HttpStatus.NOT_FOUND);
+
     }
 }

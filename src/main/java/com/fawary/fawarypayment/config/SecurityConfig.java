@@ -46,7 +46,7 @@ public class SecurityConfig {
                     .requestMatchers("/api/gateways/availability/**").hasRole("ADMIN")
                     .requestMatchers("/api/gateways/config/**").hasRole("ADMIN")
                     .requestMatchers("/api/factor/config/**").hasRole("ADMIN")
-                    .requestMatchers("/api/billers/logs/**").authenticated()
+                    .requestMatchers("/api/billers/logs/**").hasRole("USER")
                     .requestMatchers("/api/payments/recommend/**").hasRole("USER")
                     .requestMatchers("/api/auth/login").permitAll());
 

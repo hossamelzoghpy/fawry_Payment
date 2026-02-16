@@ -1,10 +1,13 @@
 package com.fawary.fawarypayment.service;
 
 import com.fawary.fawarypayment.dto.GatewayConfigDTO;
+import com.fawary.fawarypayment.exception.AlreadyExistsException;
+import com.fawary.fawarypayment.exception.ApplicationException;
 import com.fawary.fawarypayment.exception.NotFountException;
 import com.fawary.fawarypayment.mapper.GatewayConfigMapper;
 import com.fawary.fawarypayment.repo.GatewayConfigRepo;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,8 +19,8 @@ public class GatewayConfigService {
     private final GatewayConfigMapper mapper;
 
     public void insertGateway(GatewayConfigDTO dto){
-        if(gatewayConfigRepo.findById(dto.getId()).isPresent())
-            throw new RuntimeException("Gateway with id: "+dto.getId()+" already exists.");
+
+        if (dto.getId() != null) throw new ApplicationException("Gateway id must be null while inserting new gateway.", HttpStatus.BAD_REQUEST);
         gatewayConfigRepo.save(mapper.toEntity(dto));
     }
     public void updateGateway(GatewayConfigDTO dto){

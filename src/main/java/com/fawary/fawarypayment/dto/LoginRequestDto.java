@@ -1,4 +1,7 @@
 package com.fawary.fawarypayment.dto;
 
-public record LoginRequestDto(String username,String password) {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+
+public record LoginRequestDto(@NotEmpty String username,@NotEmpty String password) {
 }

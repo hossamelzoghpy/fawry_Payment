@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface GatewayAvailabilityMapper {
 
-
+    @Mapping(source = "gateway.id", target = "gatewayId")
     GatewayAvailabilityDTO toDto(GatewayAvailability entity);
     List<GatewayAvailabilityDTO> toDtoList(List<GatewayAvailability> entities);
 

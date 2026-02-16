@@ -6,6 +6,7 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -22,22 +23,6 @@ public class ApplicationExceptionHandler {
                     .body(error);
 
         }
-    @ExceptionHandler(NotFountException.class)
-    public ResponseEntity<ErrorResponse> handleNotFound(NotFountException ex){
-        ErrorResponse error=ErrorResponse.builder().message(ex.getMessage()).
-                status(HttpStatus.NOT_FOUND.toString()).time(LocalDateTime.now()).build();
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(error);
-
-    }
-    @ExceptionHandler(SecurityAuthenticationException.class)
-    public ResponseEntity<ErrorResponse> handleSecurityAuth(SecurityAuthenticationException ex){
-        ErrorResponse error=ErrorResponse.builder().message(ex.getMessage()).status(HttpStatus.UNAUTHORIZED.toString()).time(LocalDateTime.now()).build();
-        return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)
-                .body(error);
-    }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ErrorResponse> handleConstraintViolation(DataIntegrityViolationException ex) {
@@ -46,10 +31,39 @@ public class ApplicationExceptionHandler {
             String constraintName = cve.getConstraintName();
             message = "Database constraint violation: " + constraintName;
         }
-
         ErrorResponse error=ErrorResponse.builder().message(message).status(HttpStatus.BAD_REQUEST.toString()).time(LocalDateTime.now()).build();
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
+                .body(error);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> handleMethodArgumentNotValid(MethodArgumentNotValidException ex){
+        String errorMessage = ex.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(error -> error.getField() + ": " + error.getDefaultMessage())
+                .reduce((msg1, msg2) -> msg1 + ", " + msg2)
+                .orElse("Validation failed");
+
+        ErrorResponse response = ErrorResponse.builder()
+                .status(HttpStatus.BAD_REQUEST.toString())
+                .message(errorMessage)
+                .time(LocalDateTime.now())
+                .build();
+
+        return ResponseEntity.badRequest().body(response);
+    }
+
+
+
+
+    @ExceptionHandler(ApplicationException.class)
+    public ResponseEntity<ErrorResponse> handleApplicationExcepion(ApplicationException ex){
+        log.error("Generic application exception: ", ex);
+        ErrorResponse error=ErrorResponse.builder().message(ex.getMessage()).status(ex.getCode().toString()).time(LocalDateTime.now()).build();
+        return ResponseEntity
+                .status(ex.getCode())
                 .body(error);
     }
 

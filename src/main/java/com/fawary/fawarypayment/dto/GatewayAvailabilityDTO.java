@@ -1,5 +1,7 @@
 package com.fawary.fawarypayment.dto;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,10 +15,21 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GatewayAvailabilityDTO {
+
+
     private Long id;
+
+    @NotNull
+    @NotEmpty
     private String gatewayId;
+
+    @NotNull
     private DayOfWeek dayOfWeek;
+
+    @NotNull
     private LocalTime startTime;
+
+    @NotNull
     private LocalTime endTime;
 }
 

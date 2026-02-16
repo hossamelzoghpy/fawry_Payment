@@ -30,5 +30,4 @@ public class TransactionLogsController {
         }
         return transactionLogService.getTransactionsForDay(billerId, gatewayId, effectiveDate);
     }
-
 }

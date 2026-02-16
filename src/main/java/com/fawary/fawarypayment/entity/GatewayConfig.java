@@ -18,6 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class GatewayConfig {
+
     @Id
     @GatewayId
     private String id;

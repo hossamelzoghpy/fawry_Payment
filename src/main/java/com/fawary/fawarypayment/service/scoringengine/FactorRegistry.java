@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -16,9 +17,8 @@ public class FactorRegistry {
                 factor -> Map.entry(factor.getCode(), factor)
         ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
-    public ScoringFactor getFactor(String code) {
+    public Optional<ScoringFactor> getFactor(String code) {
         ScoringFactor factor = codeToFactorMapping.get(code);
-        if (factor== null) throw new IllegalStateException("No factor implementation registered for code: " + code);
-        return factor;
+        return Optional.ofNullable(factor);
     }
 }

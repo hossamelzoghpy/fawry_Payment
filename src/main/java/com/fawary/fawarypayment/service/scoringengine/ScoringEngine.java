@@ -3,9 +3,11 @@ package com.fawary.fawarypayment.service.scoringengine;
 import com.fawary.fawarypayment.dto.FactorDirection;
 import com.fawary.fawarypayment.dto.ScoredGatewayDto;
 import com.fawary.fawarypayment.dto.ScoringFactorConfigDto;
+import com.fawary.fawarypayment.exception.ApplicationException;
 import com.fawary.fawarypayment.service.ScoringFactorConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.util.Pair;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -33,15 +35,17 @@ public class ScoringEngine {
         Map<String, Pair<BigDecimal, BigDecimal>> factorsMinMax = new HashMap<>();
 
         for (ScoringFactorConfigDto activeFactorConfig:activeFactorConfigs){
-            ScoringFactor scoringFactor = factorRegistry.getFactor(activeFactorConfig.code());
+            ScoringFactor scoringFactor = factorRegistry.getFactor(activeFactorConfig.getCode()).orElseThrow(
+                    () -> new ApplicationException("No factor behaviour found for code " + activeFactorConfig.getCode(), HttpStatus.INTERNAL_SERVER_ERROR)
+            );
             BigDecimal initialMin = scoringFactor.score(gateways.get(0));
             BigDecimal initialMax = scoringFactor.score(gateways.get(0));
-            factorsMinMax.put(activeFactorConfig.code(), Pair.of(initialMin, initialMax));
+            factorsMinMax.put(activeFactorConfig.getCode(), Pair.of(initialMin, initialMax));
             for (ScoredGatewayDto gateway:gateways){
                 BigDecimal factorScore = scoringFactor.score(gateway);
-                BigDecimal min = factorsMinMax.get(activeFactorConfig.code()).getFirst().min(factorScore);
-                BigDecimal max = factorsMinMax.get(activeFactorConfig.code()).getSecond().max(factorScore);
-                factorsMinMax.put(activeFactorConfig.code(), Pair.of(min, max));
+                BigDecimal min = factorsMinMax.get(activeFactorConfig.getCode()).getFirst().min(factorScore);
+                BigDecimal max = factorsMinMax.get(activeFactorConfig.getCode()).getSecond().max(factorScore);
+                factorsMinMax.put(activeFactorConfig.getCode(), Pair.of(min, max));
             }
 
         }
@@ -50,14 +54,16 @@ public class ScoringEngine {
             BigDecimal weightsum = BigDecimal.ZERO.setScale(4);
             log.info("Scoring gateway: {}", gateway.getGateway().getName());
             for (ScoringFactorConfigDto activeFactorConfig:activeFactorConfigs){
-                ScoringFactor scoringFactor = factorRegistry.getFactor(activeFactorConfig.code());
+                ScoringFactor scoringFactor = factorRegistry.getFactor(activeFactorConfig.getCode()).orElseThrow(
+                        () -> new ApplicationException("No factor behaviour found for code " + activeFactorConfig.getCode(), HttpStatus.INTERNAL_SERVER_ERROR)
+                );
                 FactorDirection direction = scoringFactor.direction();
                 BigDecimal nonNormalizedfactorScore = scoringFactor.score(gateway);
-                BigDecimal normalizedFactorScore = normalizeShifted(nonNormalizedfactorScore, factorsMinMax.get(activeFactorConfig.code()), direction);
-                BigDecimal factorScore = activeFactorConfig.weight().multiply(normalizedFactorScore);
+                BigDecimal normalizedFactorScore = normalizeShifted(nonNormalizedfactorScore, factorsMinMax.get(activeFactorConfig.getCode()), direction);
+                BigDecimal factorScore = activeFactorConfig.getWeight().multiply(normalizedFactorScore);
                 normalizedScore = normalizedScore.add(factorScore);
-                weightsum = weightsum.add(activeFactorConfig.weight());
-                log.info("GW: {} Factor: {} Score: {}",gateway.getGateway().getName(), activeFactorConfig.code(), factorScore);
+                weightsum = weightsum.add(activeFactorConfig.getWeight());
+                log.info("GW: {} Factor: {} Score: {}",gateway.getGateway().getName(), activeFactorConfig.getCode(), factorScore);
             }
             log.info("GW: {} Normalized score: {}", gateway.getGateway().getName(), normalizedScore);
             gateway.setScore(normalizedScore.divide(weightsum,  6, RoundingMode.HALF_UP));

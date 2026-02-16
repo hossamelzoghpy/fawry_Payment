@@ -1,6 +1,7 @@
 package com.fawary.fawarypayment.service;
 
 import com.fawary.fawarypayment.dto.GatewayAvailabilityDTO;
+import com.fawary.fawarypayment.exception.AlreadyExistsException;
 import com.fawary.fawarypayment.exception.NotFountException;
 import com.fawary.fawarypayment.mapper.GatewayAvailabilityMapper;
 import com.fawary.fawarypayment.repo.GatewayAvailabilityRepo;
@@ -30,9 +31,13 @@ public class GatewayAvailabilityService {
         if (gatewayAvailabilityRepo.findById(dto.getId()).isEmpty()){
             throw new NotFountException("No gateway availability found with id: "+dto.getId()+".");
         }
+
         gatewayAvailabilityRepo.save(mapper.toEntity(dto));
     }
     public void deleteGatewayAvailability(Long availabilityId){
+        if (gatewayAvailabilityRepo.findById(availabilityId).isEmpty()){
+            throw new NotFountException("No gateway availability found with id: "+availabilityId+".");
+        }
         gatewayAvailabilityRepo.deleteById(availabilityId);
     }
 

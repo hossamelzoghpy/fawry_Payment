@@ -1,9 +1,6 @@
 package com.fawary.fawarypayment.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -12,6 +9,7 @@ import java.math.BigDecimal;
 @Table(name = "scoring_factoring_config")
 @Data
 public class ScoringFactoringConfig {
+
     @Id
     @Column(name = "code")
     private String code;

@@ -34,9 +34,9 @@ public class GatewayAvailability {
     @NotNull
     private DayOfWeek dayOfWeek;
 
-    @Column(name = "start_time", nullable = false)
+    @Column(name = "start_time")
     private LocalTime startTime;
 
-    @Column(name = "end_time", nullable = false)
+    @Column(name = "end_time")
     private LocalTime endTime;
 }

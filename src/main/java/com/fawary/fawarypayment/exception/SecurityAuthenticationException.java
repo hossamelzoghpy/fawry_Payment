@@ -1,9 +1,9 @@
 package com.fawary.fawarypayment.exception;
 
-import org.springframework.security.core.AuthenticationException;
+import org.springframework.http.HttpStatus;
 
-public class SecurityAuthenticationException extends AuthenticationException {
+public class SecurityAuthenticationException extends ApplicationException {
     public SecurityAuthenticationException(String message) {
-        super(message);
+        super(message, HttpStatus.UNAUTHORIZED);
     }
 }

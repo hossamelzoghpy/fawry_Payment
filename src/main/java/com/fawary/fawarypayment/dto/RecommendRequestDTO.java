@@ -1,7 +1,5 @@
 package com.fawary.fawarypayment.dto;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -11,12 +9,12 @@ import java.math.BigDecimal;
 @Builder
 public class RecommendRequestDTO {
 
-    @NotNull(message = "Biller Id cannot be null")
     @NotEmpty(message = "Biller Id cannot be empty")
     private String billerId;
-    @NotNull(message = "Amount cannot be null")
+
+    @Positive
     private BigDecimal amount;
-    @NotNull(message = "Urgency cannot be null")
+
     @NotEmpty(message = "Urgency cannot be empty")
     private String urgency;
 }

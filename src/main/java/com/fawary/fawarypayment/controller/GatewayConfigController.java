@@ -5,6 +5,7 @@ import com.fawary.fawarypayment.dto.GatewayConfigDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,12 +17,12 @@ public class GatewayConfigController {
     private final GatewayConfigService gatewayConfigService;
 
     @PostMapping("create")
-    public ResponseEntity<Void> create(@RequestBody GatewayConfigDTO dto) {
+    public ResponseEntity<Void> create(@RequestBody @Validated GatewayConfigDTO dto) {
         gatewayConfigService.insertGateway(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
     @PutMapping(value = "update")
-    public ResponseEntity<Void> update(@RequestBody GatewayConfigDTO dto) {
+    public ResponseEntity<Void> update(@RequestBody @Validated GatewayConfigDTO dto) {
         gatewayConfigService.updateGateway(dto);
         return ResponseEntity.ok().build();
     }
