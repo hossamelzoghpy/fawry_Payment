@@ -1,0 +1,19 @@
+version: "3"
+services:
+  pickup:
+    restart: always
+    container_name: "fawary_task"
+    image: "postgres:17"
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=pickup-lms
+    ports:
+      - "1000:5432"
+    volumes:
+      - ./dbData/pickup:/var/lib/postgresql/data/
+    networks:
+      - my-network
+networks:
+  my-network:
+    driver: bridge
