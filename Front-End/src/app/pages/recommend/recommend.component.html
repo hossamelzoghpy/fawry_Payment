@@ -1,0 +1,190 @@
+<div class="max-w-2xl mx-auto">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold text-gray-800">Payment Gateway Recommendation</h2>
+    @if (result()) {
+      <button
+        (click)="resetForm()"
+        class="text-blue-600 hover:text-blue-700 font-semibold text-sm flex items-center gap-1">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+        </svg>
+        New Request
+      </button>
+    }
+  </div>
+
+  <!-- Form -->
+  <div class="bg-white rounded-2xl shadow-md p-8 mb-6">
+    <form (ngSubmit)="onSubmit()">
+      <div class="mb-5">
+        <label class="block text-gray-700 font-semibold mb-2">
+          Biller ID
+        </label>
+        <input
+          type="text"
+          [value]="billerId()"
+          name="billerId"
+          readonly
+          class="w-full border border-gray-200 rounded-lg p-3 bg-gray-100 text-gray-500 cursor-not-allowed"
+        />
+      </div>
+
+      <div class="mb-5">
+        <label class="block text-gray-700 font-semibold mb-2">
+          Amount
+          <span class="text-red-500">*</span>
+        </label>
+        <div class="relative">
+          <input
+            type="number"
+            [value]="amount()"
+            (input)="amount.set($any($event.target).value ? +$any($event.target).value : null)"
+            name="amount"
+            required
+            min="0.01"
+            step="0.01"
+            placeholder="Enter amount (e.g., 1000.00)"
+            class="w-full border border-gray-300 rounded-lg p-3 pl-12 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-semibold">
+            EGP
+          </span>
+        </div>
+        <p class="text-xs text-gray-500 mt-1">Minimum amount: 0.01 EGP</p>
+      </div>
+
+      <div class="mb-6">
+        <label class="block text-gray-700 font-semibold mb-2">
+          Urgency
+          <span class="text-red-500">*</span>
+        </label>
+        <div class="grid grid-cols-2 gap-3">
+          @for (opt of urgencyOptions; track opt.value) {
+            <label
+              [class]="'relative flex items-center justify-center p-4 border-2 rounded-lg cursor-pointer transition ' +
+              (urgency() === opt.value 
+                ? 'border-blue-600 bg-blue-50' 
+                : 'border-gray-300 hover:border-blue-300')">
+              <input
+                type="radio"
+                [value]="opt.value"
+                [checked]="urgency() === opt.value"
+                (change)="urgency.set(opt.value)"
+                name="urgency"
+                class="sr-only"
+              />
+              <div class="text-center">
+                @if (opt.value === 'INSTANT') {
+                  <svg class="w-8 h-8 mx-auto mb-2" [class]="urgency() === opt.value ? 'text-blue-600' : 'text-gray-400'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                  </svg>
+                } @else {
+                  <svg class="w-8 h-8 mx-auto mb-2" [class]="urgency() === opt.value ? 'text-blue-600' : 'text-gray-400'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                }
+                <span [class]="'font-semibold ' + (urgency() === opt.value ? 'text-blue-600' : 'text-gray-700')">
+                  {{ opt.label }}
+                </span>
+              </div>
+              @if (urgency() === opt.value) {
+                <svg class="absolute top-2 right-2 w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+              }
+            </label>
+          }
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="isLoading() || !amount() || amount()! <= 0"
+        class="w-full bg-blue-600 text-white py-3.5 rounded-lg font-semibold hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+        @if (isLoading()) {
+          <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <span>Getting Recommendation...</span>
+        } @else {
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+          </svg>
+          <span>Get Recommendation</span>
+        }
+      </button>
+    </form>
+  </div>
+
+  <!-- Result -->
+  @if (result()) {
+    <!-- Recommended Gateway -->
+    <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl shadow-md p-6 mb-4 border-l-4 border-green-500">
+      <div class="flex items-center gap-2 mb-4">
+        <h3 class="text-xl font-bold text-gray-800">Recommended Gateway</h3>
+      </div>
+      <div class="bg-white rounded-lg p-5 shadow-sm">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <p class="text-gray-500 text-sm mb-1">Gateway Name</p>
+            <p class="font-bold text-gray-800 text-lg">{{ result()!.recommendedGateway.name }}</p>
+          </div>
+          <div>
+            <p class="text-gray-500 text-sm mb-1">Gateway ID</p>
+            <p class="font-semibold text-gray-700">{{ result()!.recommendedGateway.id }}</p>
+          </div>
+          <div>
+            <p class="text-gray-500 text-sm mb-1">Estimated Commission</p>
+            <p class="font-bold text-green-600 text-lg">
+              {{ result()!.recommendedGateway.estimatedCommission | number:'1.2-2' }} EGP
+            </p>
+          </div>
+          <div>
+            <p class="text-gray-500 text-sm mb-1">Processing Time</p>
+            <p class="font-semibold text-gray-700">{{ result()!.recommendedGateway.processingTime }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alternatives -->
+    @if (result()!.alternatives && result()!.alternatives.length > 0) {
+      <div class="bg-white rounded-2xl shadow-md p-6">
+        <div class="flex items-center gap-2 mb-4">
+          <h3 class="text-lg font-bold text-gray-800">Alternative Gateways</h3>
+        </div>
+        <div class="flex flex-col gap-3">
+          @for (alt of result()!.alternatives; track alt.id) {
+            <div class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 hover:shadow-md transition">
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <p class="text-gray-500 text-xs mb-1">Gateway Name</p>
+                  <p class="font-semibold text-gray-800">{{ alt.name }}</p>
+                </div>
+                <div>
+                  <p class="text-gray-500 text-xs mb-1">Gateway ID</p>
+                  <p class="font-medium text-gray-600">{{ alt.id }}</p>
+                </div>
+                <div>
+                  <p class="text-gray-500 text-xs mb-1">Estimated Commission</p>
+                  <p class="font-semibold text-blue-600">{{ alt.estimatedCommission | number:'1.2-2' }} EGP</p>
+                </div>
+                <div>
+                  <p class="text-gray-500 text-xs mb-1">Processing Time</p>
+                  <p class="font-medium text-gray-600">{{ alt.processingTime }}</p>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    } @else {
+      <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-lg">
+        <p class="text-sm text-blue-800">
+          <span class="font-semibold">Note:</span> No alternative gateways available for this transaction.
+        </p>
+      </div>
+    }
+  }
+</div>

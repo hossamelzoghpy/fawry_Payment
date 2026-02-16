@@ -1,0 +1,68 @@
+<div class="max-w-xl mx-auto bg-white p-8 rounded-2xl shadow">
+  <h2 class="text-2xl font-bold text-gray-800 mb-6">
+    {{ isEditMode() ? 'Edit Gateway' : 'Add Gateway New' }}
+  </h2>
+
+  <form (ngSubmit)="onSubmit()">
+
+    <div class="mb-4">
+      <label class="block text-gray-700 mb-2">Name</label>
+      <input type="text" [(ngModel)]="dto.name" name="name" required
+        class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-gray-700 mb-2">Fixed Fee</label>
+      <input type="number" [(ngModel)]="dto.fixedFee" name="fixedFee" required
+        class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-gray-700 mb-2">Percentage Fee</label>
+      <input type="number" [(ngModel)]="dto.percentageFee" name="percentageFee" required
+        class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-gray-700 mb-2">Daily Limit</label>
+      <input type="number" [(ngModel)]="dto.dailyLimit" name="dailyLimit" required
+        class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-gray-700 mb-2">Min Transaction</label>
+      <input type="number" [(ngModel)]="dto.minTransaction" name="minTransaction" required
+        class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-gray-700 mb-2">Max Transaction</label>
+      <input type="number" [(ngModel)]="dto.maxTransaction" name="maxTransaction" required
+        class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-gray-700 mb-2">Processing Time (seconds)</label>
+      <input type="number" [(ngModel)]="dto.processingTime" name="processingTime" required
+        class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+    </div>
+
+    <div class="mb-6 flex items-center gap-3">
+      <input type="checkbox" [(ngModel)]="dto.enabled" name="enabled" id="enabled"
+        class="w-5 h-5 accent-blue-600"/>
+      <label for="enabled" class="text-gray-700">Enabled</label>
+    </div>
+
+    <div class="flex gap-4">
+      <button type="submit" [disabled]="isLoading()"
+        class="flex-1 bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition disabled:opacity-50">
+        {{ isLoading() ? 'Saving...' : (isEditMode() ? 'Edit' : 'Add') }}
+      </button>
+      <button type="button" (click)="router.navigate(['/gateways'])"
+        class="flex-1 bg-gray-200 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
+        Cancel
+      </button>
+    </div>
+
+  </form>
+</div>
