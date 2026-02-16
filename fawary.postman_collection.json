@@ -10,10 +10,16 @@
       "name": "Recommand-Gateways",
       "request": {
         "method": "POST",
-        "header": [],
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmYXdyeSBzeXN0ZW0iLCJzdWIiOiJ0b2tlbiIsInVzZXJuYW1lIjoidXNlcjFAZmF3cnkuY29tIiwiYmlsbGVySWQiOiJCSUxMXzIwMDAwMSIsIlJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE3NzE0Mjg4OTIsImV4cCI6MTc3MTQ1ODg5Mn0.dd6wcHO9tXTjlfyZG-vlwjXJ2nAp71RFbhvbGjipjZ4",
+            "type": "text"
+          }
+        ],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"billerId\": \"BILL_144\",\r\n    \"amount\": 50,\r\n    \"urgency\": \"CAN_WAIT\"\r\n}",
+          "raw": "{\r\n    \"billerId\": \"BILL_200001\",\r\n    \"amount\": 50,\r\n    \"urgency\": \"CAN_WAIT\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -37,13 +43,19 @@
       "response": []
     },
     {
-      "name": "login",
+      "name": "Split_trans",
       "request": {
         "method": "POST",
-        "header": [],
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmYXdyeSBzeXN0ZW0iLCJzdWIiOiJ0b2tlbiIsInVzZXJuYW1lIjoiYWRtaW5AZmF3cnkuY29tIiwiYmlsbGVySWQiOiIiLCJSb2xlcyI6WyJST0xFX0FETUlOIl0sImlhdCI6MTc3MTQyOTkzOCwiZXhwIjoxNzcxNDU5OTM4fQ.KY-YNhT27VnNNy2wcTCZdYcNkF6xgN-5ud7bk0WoXjA",
+            "type": "text"
+          }
+        ],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"billerId\": \"BILL_12345\",\r\n    \"amount\": 50,\r\n    \"urgency\": \"CAN_WAIT\"\r\n}",
+          "raw": "{\r\n    \"billerId\": \"BILL_200001\",\r\n    \"amount\": 50,\r\n    \"urgency\": \"CAN_WAIT\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -51,7 +63,7 @@
           }
         },
         "url": {
-          "raw": "http://localhost:8080/api/payments/recommend",
+          "raw": "http://localhost:8080/api/payments/split",
           "protocol": "http",
           "host": [
             "localhost"
@@ -60,7 +72,37 @@
           "path": [
             "api",
             "payments",
-            "recommend"
+            "split"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "login",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\": \"admin@fawry.com\",\r\n    \"password\": \"admin12345\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/auth/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "auth",
+            "login"
           ]
         }
       },
@@ -106,7 +148,7 @@
     {
       "name": "update-availability-gateway",
       "request": {
-        "method": "POST",
+        "method": "PUT",
         "header": [
           {
             "key": "Authorization",
@@ -116,7 +158,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n  \"gatewayId\": \"gateway_551\",\r\n  \"dayOfWeek\": \"SATURDAY\",\r\n  \"startTime\": \"00:00:00\",\r\n  \"endTime\": \"23:00:00\"\r\n}",
+          "raw": "{\r\n  \"gatewayId\": \"gateway_551\",\r\n  \"dayOfWeek\": \"SUNDAY\",\r\n  \"startTime\": \"00:00:00\",\r\n  \"endTime\": \"23:00:00\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -124,7 +166,7 @@
           }
         },
         "url": {
-          "raw": "http://localhost:8080/api/gateways/availability/create",
+          "raw": "http://localhost:8080/api/gateways/availability/update",
           "protocol": "http",
           "host": [
             "localhost"
@@ -134,7 +176,7 @@
             "api",
             "gateways",
             "availability",
-            "create"
+            "update"
           ]
         }
       },
@@ -182,7 +224,27 @@
       "name": "getAll-availability-gateway",
       "request": {
         "method": "GET",
-        "header": []
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmYXdhcnkgc3lzdGVtIiwic3ViIjoidG9rZW4iLCJ1c2VybmFtZSI6ImFkbWluQGZhd2FyeS5jb20iLCJiaWxsZXJJZCI6IiIsIlJvbGVzIjoiUk9MRV9BRE1JTiIsImlhdCI6MTc3MTE3Nzk2OSwiZXhwIjoxNzcxMjA3OTY5fQ._E2EWX37ztDlRHg_lZqPv4CUzUjBIQbXcycaZzqD0OU",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/gateways/availability/getAll",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "gateways",
+            "availability",
+            "getAll"
+          ]
+        }
       },
       "response": []
     },

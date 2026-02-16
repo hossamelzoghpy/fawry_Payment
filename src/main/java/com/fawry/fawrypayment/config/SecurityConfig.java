@@ -49,6 +49,7 @@ public class SecurityConfig {
                     .requestMatchers("/api/factor/config/**").hasAnyRole("ADMIN")
                     .requestMatchers("/api/billers/logs/**").hasAnyRole("USER")
                     .requestMatchers("/api/payments/recommend/**").hasAnyRole("USER")
+                    .requestMatchers("/api/payments/split/**").hasAnyRole("USER")
                     .requestMatchers("/api/auth/login").permitAll());
 
 

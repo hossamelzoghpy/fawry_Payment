@@ -4,6 +4,7 @@ import { MainLayoutComponent } from './layout/main-layout/main-layout.component'
 import { GatewayListComponent } from './pages/gateway/gateway-list/gateway-list.component';
 import { GatewayAvailabilityListComponent } from './pages/gateway-availability/gateway-availability-list/gateway-availability-list.component';
 import { RecommendComponent } from './pages/recommend/recommend.component';
+import { SplitTxnComponent } from './pages/split-txn/split-txn.component';
 import { ScoringFactorComponent } from './pages/scoring-factor/scoring-factor.component';
 import { TransactionsComponent } from './pages/transactions/transactions.component';
 import { authGuard } from './guards/auth.guard';
@@ -45,6 +46,11 @@ export const routes: Routes = [
       {
         path: 'recommend',
         component: RecommendComponent,
+        canActivate: [userGuard]
+      },
+      {
+        path: 'split-txn',
+        component: SplitTxnComponent,
         canActivate: [userGuard]
       }
     ]
