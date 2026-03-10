@@ -224,59 +224,54 @@ public class RoutingService {
 
         ScoredGatewayDto recommended = ranked.get(0);
         SimpleGatewayResponse recommendedGateway = recommendationMapper.toRecommendedGateway(recommended);
-        GatewayConfigDTO gatewayConfigDTO= gatewayConfigMapper.toDto(gatewayConfigRepo.findById(recommendedGateway.getId()).orElseThrow(
-                ()-> new NotFountException("No Configuration for this Gateway")));
+        GatewayConfigDTO gatewayConfigDTO = gatewayConfigMapper.toDto(gatewayConfigRepo.findById(recommendedGateway.getId()).orElseThrow(
+                () -> new NotFountException("No Configuration for this Gateway")));
         BigDecimal maxTxnLimit = gatewayConfigRepository.findMaxTransactionById(recommendedGateway.getId());
-//        BigDecimal minTxnLimit = gatewayConfigRepository.findMinTransactionById(recommendedGateway.getId());
-        BigDecimal dailyLimit  = gatewayConfigRepository.findDailyLimitById(recommendedGateway.getId());
+        BigDecimal dailyLimit = gatewayConfigRepository.findDailyLimitById(recommendedGateway.getId());
 
         BigDecimal totalAmount = recommendRequestDTO.getAmount();
 
 
         List<BigDecimal> splits = calculateSplits(totalAmount, maxTxnLimit);
 
-
-//        boolean hasInvalidChunk = splits.stream()
-//                .anyMatch(chunk -> chunk.compareTo(minTxnLimit) < 0);
-
-//        if (hasInvalidChunk) {
-//           throw new ApplicationException("This transaction is less than Min transaction ", HttpStatus.BAD_REQUEST);
-//        }
-
-
         BigDecimal usedQuota = transactionLogService.getTotalTransactionsAmountByBillerInDay(recommendRequestDTO.getBillerId()
-                ,recommendedGateway.getId(),today);
+                , recommendedGateway.getId(), today);
 
         BigDecimal remainingQuota = dailyLimit.subtract(usedQuota);
         boolean quotaAvailable = remainingQuota.compareTo(totalAmount) >= 0;
-
-        if (!quotaAvailable) {
-            throw new NotFountException("Daily quota exceeded for biller " + recommendRequestDTO.getBillerId() +
-                    " so no gateway can consume this transaction.");
-        }
-
         BigDecimal totalCommission = BigDecimal.ZERO;
-        for (BigDecimal chunkOfTrans : splits) {
-            BigDecimal chunkCommission = commissionService.calculate(gatewayConfigDTO, chunkOfTrans);
-            totalCommission = totalCommission.add(chunkCommission);
+        if (quotaAvailable) {
 
-            transactionLogService.logTransaction(
-                    recommendRequestDTO.getBillerId(),
-                    recommendedGateway.getId(),
-                    chunkOfTrans,
-                    chunkCommission,
-                    recommendRequestDTO.getUrgency()
-            );
+            for (BigDecimal chunkOfTrans : splits) {
+                BigDecimal chunkCommission = commissionService.calculate(gatewayConfigDTO, chunkOfTrans);
+                totalCommission = totalCommission.add(chunkCommission);
+
+                transactionLogService.logTransaction(
+                        recommendRequestDTO.getBillerId(),
+                        recommendedGateway.getId(),
+                        chunkOfTrans,
+                        chunkCommission,
+                        recommendRequestDTO.getUrgency()
+                );
+            }
+            return RecommendationSplitResponse.builder()
+                    .selectedGateway(recommendedGateway.getName())
+                    .requiresSplitting(splits.size() > 1)
+                    .splits(splits)
+                    .totalCommission(totalCommission)
+                    .quotaAvailable(true)
+                    .splitCount(splits.size())
+                    .build();
         }
-
         return RecommendationSplitResponse.builder()
                 .selectedGateway(recommendedGateway.getName())
                 .requiresSplitting(splits.size() > 1)
                 .splits(splits)
                 .totalCommission(totalCommission)
-                .quotaAvailable(true)
+                .quotaAvailable(false)
                 .splitCount(splits.size())
                 .build();
+
     }
 
 

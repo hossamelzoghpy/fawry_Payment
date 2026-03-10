@@ -94,8 +94,8 @@ export class GatewayAvailabilityListComponent implements OnInit {
     return { 
       gatewayId: '', 
       dayOfWeek: 'MONDAY', 
-      startTime: '09:00', 
-      endTime: '17:00' 
+      startTime: '12:00', 
+      endTime: '11:59' 
     };
   }
 
