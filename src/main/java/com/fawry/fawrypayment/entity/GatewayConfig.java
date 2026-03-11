@@ -39,13 +39,13 @@ public class GatewayConfig {
     private BigDecimal maxTransaction;
 
     @OneToMany(
-            mappedBy = "gateway")
+            mappedBy = "gateway", cascade = CascadeType.REMOVE)
     private List<GatewayAvailability> availabilities;
 
     @Column(name = "processing_time")
     private Integer processingTime;
 
-    @OneToMany(mappedBy = "gateway")
+    @OneToMany(mappedBy = "gateway",cascade = CascadeType.REMOVE)
     private List<TransactionLog> transactionLogs;
 
     private Boolean enabled;
