@@ -49,15 +49,24 @@ public class TransactionLogService {
         if (billerId == null || billerId.isBlank()) {
             throw new IllegalArgumentException("billerId must not be blank");
         }
-        if (date == null) {
-            throw new IllegalArgumentException("date must not be null");
+//        if (date == null) {
+//            throw new IllegalArgumentException("date must not be null");
+//        }
+        LocalDateTime start=null;
+        LocalDateTime end=null;
+        if(date!=null){
+            start=date.atStartOfDay();
+            end=date.plusDays(1).atStartOfDay();
+        }
+        Page<TransactionLog> dataPage=null;
+        if(date!=null){
+            dataPage = transactionLogRepository.findByBillerIdAndCreatedAtBetween(billerId, start, end, pageable);
+
+        }
+        else{
+            dataPage=transactionLogRepository.findAllByBillerId(billerId,pageable);
         }
 
-        LocalDateTime start = date.atStartOfDay();
-        LocalDateTime end = date.plusDays(1).atStartOfDay();
-
-
-        Page<TransactionLog> dataPage = transactionLogRepository.findByBillerIdAndCreatedAtBetween(billerId, start, end, pageable);
 
         PaginatedResponseDto<TransactionDTO> response = new PaginatedResponseDto<>();
         response.setTotalPages(dataPage.getTotalPages());
@@ -75,14 +84,20 @@ public class TransactionLogService {
         if (gatewayId == null || gatewayId.isBlank()) {
             throw new IllegalArgumentException("gatewayId must not be blank");
         }
-        if (date == null) {
-            throw new IllegalArgumentException("date must not be null");
+        LocalDateTime start=null;
+        LocalDateTime end=null;
+        if(date!=null){
+            start=date.atStartOfDay();
+            end=date.plusDays(1).atStartOfDay();
         }
+        Page<TransactionLog> dataPage=null;
+        if(date!=null){
+            dataPage = transactionLogRepository.findByBillerIdAndGatewayIdAndCreatedAtBetween(billerId, gatewayId, start, end, pageable);
 
-        LocalDateTime start = date.atStartOfDay();
-        LocalDateTime end = date.plusDays(1).atStartOfDay();
-
-        Page<TransactionLog> dataPage = transactionLogRepository.findByBillerIdAndGatewayIdAndCreatedAtBetween(billerId, gatewayId, start, end, pageable);
+        }
+        else{
+            dataPage=transactionLogRepository.findAllByBillerIdAndGatewayId(billerId,gatewayId,pageable);
+        }
 
         PaginatedResponseDto<TransactionDTO> response = new PaginatedResponseDto<>();
         response.setTotalPages(dataPage.getTotalPages());

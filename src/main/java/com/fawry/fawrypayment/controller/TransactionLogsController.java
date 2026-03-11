@@ -23,11 +23,10 @@ public class TransactionLogsController {
             @RequestParam(required = false)
             @DateTimeFormat LocalDate date
     ) {
-        LocalDate effectiveDate = (date == null) ? java.time.LocalDate.now() : date;
 
         if (gatewayId == null || gatewayId.isBlank()) {
-            return transactionLogService.getTransactionsForDay(billerId, effectiveDate, pageNumber);
+            return transactionLogService.getTransactionsForDay(billerId, date, pageNumber);
         }
-        return transactionLogService.getTransactionsForDay(billerId, gatewayId, effectiveDate, pageNumber);
+        return transactionLogService.getTransactionsForDay(billerId, gatewayId, date, pageNumber);
     }
 }

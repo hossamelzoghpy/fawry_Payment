@@ -31,6 +31,8 @@ public interface TransactionLogRepo extends PagingAndSortingRepository<Transacti
             LocalDateTime end,
             Pageable pageable
     );
+    Page<TransactionLog> findAllByBillerId(String billerId, Pageable pageable);
+    Page<TransactionLog> findAllByBillerIdAndGatewayId(String billerId, String gatewayId, Pageable pageable);
 
     @Query("SELECT COALESCE(SUM(t.amount), 0) " +
             "FROM TransactionLog t " +
